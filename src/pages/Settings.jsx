@@ -1,9 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
+import BottomNav from '../components/BottomNav'
 import { useAuth } from '../context/AuthContext'
 import { useUserProfile, updateProfile, uploadAvatar } from '../hooks/useUserProfile'
 import { QRShowModal } from '../components/QRModal'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 // ── palette ────────────────────────────────────────────────────────────────
 const C = {
@@ -251,21 +253,171 @@ export default function Settings() {
     return null
   }
 
-  return (
-    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: C.bg }}>
-      <Sidebar />
-      <div style={{ marginLeft: 256, flex: 1, display: 'flex', flexDirection: 'column' }}>
-        <Header />
-        <main style={{ padding: '40px', maxWidth: 640, display: 'flex', flexDirection: 'column', gap: 28 }}>
+  const isMobile = useIsMobile()
 
-          <div>
-            <h1 style={{ fontFamily: 'Manrope', fontWeight: 800, fontSize: 26, color: C.text, marginBottom: 4 }}>Settings</h1>
-            <p style={{ fontFamily: 'Inter', fontSize: 14, color: C.sub }}>Manage your account, wallet, and preferences</p>
+  return (
+    <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: C.bg, overflowX: 'hidden' }}>
+      {!isMobile && <Sidebar />}
+
+      <div style={{ marginLeft: isMobile ? 0 : 256, flex: 1, display: 'flex', flexDirection: 'column', paddingBottom: isMobile ? 72 : 0, minWidth: 0 }}>
+
+        {isMobile ? (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', backgroundColor: C.bg, position: 'sticky', top: 0, zIndex: 10, borderBottom: `1px solid ${C.border}` }}>
+            <button onClick={() => window.history.back()} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex' }}>
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4L6 10L12 16" stroke={C.text} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+            <span style={{ fontFamily: 'Manrope', fontWeight: 800, fontSize: 17, color: C.text }}>Settings</span>
           </div>
+        ) : <Header />}
+
+        <main style={{ padding: isMobile ? '16px 16px 24px' : '40px', maxWidth: isMobile ? '100%' : 640, display: 'flex', flexDirection: 'column', gap: isMobile ? 20 : 28 }}>
+
+          {!isMobile && (
+            <div>
+              <h1 style={{ fontFamily: 'Manrope', fontWeight: 800, fontSize: 26, color: C.text, marginBottom: 4 }}>Settings</h1>
+              <p style={{ fontFamily: 'Inter', fontSize: 14, color: C.sub }}>Manage your account, wallet, and preferences</p>
+            </div>
+          )}
 
           {/* ── ACCOUNT ── */}
           <Section title="Account">
             <AvatarUpload profile={profile} walletAddress={walletAddress} onUpdated={refetch} />
+            <div style={{ padding: '15px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>@</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Username / Handle</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 13, color: C.muted, marginTop: 1 }}>@{profile?.username}</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 11, color: C.sub, marginTop: 3 }}>Handles are permanent and cannot be changed.</div>
+              </div>
+              <div style={{ padding: '4px 10px', borderRadius: 6, backgroundColor: C.bg, border: `1px solid ${C.border}`, fontFamily: 'Inter', fontSize: 11, color: C.sub, flexShrink: 0 }}>Locked</div>
+            </div>
+            <Row icon="✉️" label="Email" value={displayName?.includes('@') ? displayName : 'Connected via Google'} border={false}/>
+          </Section>
+
+          {/* ── WALLET & PAYMENTS ── */}
+          <Section title="Wallet & Payments">
+            <div style={{ padding: '15px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🔑</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Wallet Address</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 11, color: C.sub, marginTop: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {walletAddress ?? 'Loading...'}
+                </div>
+              </div>
+              {walletAddress && <CopyButton text={walletAddress} />}
+            </div>
+            <Row icon="📷" label="Receive via QR" value="Show QR code for your wallet" onClick={() => setShowQR(true)} />
+            <div style={{ padding: '15px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🔗</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Your payment link</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 11, color: C.sub, marginTop: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  {profile?.username ? `${window.location.origin}/pay/@${profile.username}` : 'Set a username first'}
+                </div>
+              </div>
+              {profile?.username && <CopyButton text={`${window.location.origin}/pay/@${profile.username}`} />}
+            </div>
+            <div style={{ padding: '15px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>💱</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Currency Display</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 12, color: C.sub, marginTop: 1 }}>How amounts are shown in the app</div>
+              </div>
+              <div style={{ display: 'flex', gap: 6 }}>
+                {['USD', 'INR'].map(c => (
+                  <button key={c} onClick={() => { setCurrency(c); savePref('currency', c) }} style={{ padding: '5px 12px', borderRadius: 8, border: `1.5px solid ${currency === c ? C.green : C.border}`, backgroundColor: currency === c ? C.greenLight : 'transparent', fontFamily: 'Inter', fontWeight: 700, fontSize: 12, color: currency === c ? C.green : C.sub, cursor: 'pointer' }}>{c}</button>
+                ))}
+              </div>
+            </div>
+            <div style={{ padding: '15px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>⚡</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Auto-Yield</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 12, color: C.sub, marginTop: 1 }}>Funds are deployed to Aave v3 automatically</div>
+              </div>
+              <Toggle on={autoYield} onChange={(v) => { setAutoYield(v); savePref('auto_yield', v) }} />
+            </div>
+          </Section>
+
+          {/* ── SECURITY ── */}
+          <Section title="Security">
+            <Row icon="🔒" label="Session" value="Signed in on this device" border />
+            <Row icon="🚪" label="Sign out" danger onClick={logout} border={false}/>
+          </Section>
+
+          {/* ── NOTIFICATIONS ── */}
+          <Section title="Notifications">
+            <div style={{ padding: '15px 20px', display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>🔔</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Push Notifications</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 12, color: C.sub, marginTop: 1, lineHeight: 1.5 }}>Payment received · Payment sent · Yield earned</div>
+              </div>
+              <Toggle on={notifications} onChange={async (v) => {
+                if (v) {
+                  const perm = await Notification.requestPermission()
+                  if (perm !== 'granted') return
+                }
+                setNotifications(v)
+                savePref('notifications_enabled', v)
+              }} />
+            </div>
+          </Section>
+
+          {/* ── HELP ── */}
+          <Section title="Help & Support">
+            <Row icon="💬" label="Contact Support" value="aryansinhag2006@gmail.com" onClick={() => window.open('mailto:aryansinhag2006@gmail.com')} border={false}/>
+          </Section>
+
+          {/* ── ADVANCED ── */}
+          <Section title="Advanced">
+            <button onClick={() => setShowAdvanced(v => !v)} style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 14, padding: '15px 20px', background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}>
+              <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>⚙️</div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 14, color: C.text }}>Advanced Settings</div>
+                <div style={{ fontFamily: 'Inter', fontSize: 12, color: C.sub, marginTop: 1 }}>Network and developer options</div>
+              </div>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ transform: showAdvanced ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
+                <path d="M6 4L10 8L6 12" stroke={C.sub} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+            {showAdvanced && (
+              <div style={{ borderTop: `1px solid ${C.border}`, padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+                <div>
+                  <div style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 13, color: C.text, marginBottom: 8 }}>Network</div>
+                  <select defaultValue="base-sepolia" style={{ width: '100%', padding: '10px 14px', borderRadius: 10, border: `1.5px solid ${C.border}`, fontFamily: 'Inter', fontSize: 14, color: C.text, backgroundColor: C.bg, outline: 'none', cursor: 'pointer' }}>
+                    <option value="base-sepolia">Base Sepolia (Testnet)</option>
+                    <option disabled>Base Mainnet — coming soon</option>
+                    <option disabled>Ethereum — coming soon</option>
+                    <option disabled>Arbitrum — coming soon</option>
+                  </select>
+                  <div style={{ fontFamily: 'Inter', fontSize: 11, color: C.sub, marginTop: 6 }}>More networks coming soon. Currently on Base Sepolia testnet.</div>
+                </div>
+              </div>
+            )}
+          </Section>
+
+          <div style={{ textAlign: 'center', fontFamily: 'Inter', fontSize: 11, color: C.sub, paddingBottom: 20 }}>
+            VerdexPay v0.1.0 · Base Sepolia Testnet
+          </div>
+
+        </main>
+      </div>
+
+      {isMobile && <BottomNav />}
+
+      {showQR && walletAddress && (
+        <QRShowModal
+          url={profile?.username ? `${window.location.origin}/pay/@${profile.username}` : walletAddress}
+          title="Receive payment"
+          subtitle={profile?.username ? `@${profile.username}` : walletAddress}
+          onClose={() => setShowQR(false)}
+        />
+      )}
+    </div>
+  )
+}
+
             <div style={{ padding: '15px 20px', borderBottom: `1px solid ${C.border}`, display: 'flex', alignItems: 'center', gap: 14 }}>
               <div style={{ width: 34, height: 34, borderRadius: 9, backgroundColor: C.greenLight, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, flexShrink: 0 }}>@</div>
               <div style={{ flex: 1 }}>

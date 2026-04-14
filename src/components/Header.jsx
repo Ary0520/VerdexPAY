@@ -27,33 +27,12 @@ export default function Header() {
   return (
     <header style={{
       display: 'flex',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-end',
       alignItems: 'center',
       padding: '0 32px',
       height: 64,
       backgroundColor: '#F8F9FA',
     }}>
-      {/* Search */}
-      <div style={{ flex: 1, maxWidth: 480, position: 'relative' }}>
-        <SearchIcon />
-        <input
-          type="text"
-          placeholder="Search transactions or assets"
-          style={{
-            width: '100%',
-            padding: '8px 16px 9px 40px',
-            backgroundColor: '#F3F4F5',
-            border: 'none',
-            borderRadius: 8,
-            fontFamily: 'Manrope',
-            fontWeight: 400,
-            fontSize: 14,
-            color: '#6B7280',
-            outline: 'none',
-          }}
-        />
-      </div>
-
       {/* Icons */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
         <button style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', position: 'relative' }}>
