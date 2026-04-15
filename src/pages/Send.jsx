@@ -475,9 +475,10 @@ export default function Send() {
 
   const handleModeChange = (m) => {
     setMode(m)
-    // Only reset if on step 0 — don't disrupt mid-flow
     if (step === 0) { setRecipient(null); setTxData({ amount: '', note: '' }); setTxHash(null) }
   }
+
+  const handleReset = () => { setStep(0); setRecipient(null); setTxData({ amount: '', note: '' }); setTxHash(null) }
 
   const isMobile = useIsMobile()
 
