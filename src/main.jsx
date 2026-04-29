@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { PrivyProvider } from '@privy-io/react-auth'
 import { AuthProvider } from './context/AuthContext'
 import AuthGuard from './components/AuthGuard'
 import Toast from './components/Toast'
 import AppNotifications from './components/AppNotifications'
+import Landing from './pages/Landing'
 import Login from './pages/Login'
 import ClaimUsername from './pages/ClaimUsername'
 import Dashboard from './pages/Dashboard'
@@ -42,12 +43,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Toast />
           <Routes>
             {/* Public */}
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
             <Route path="/claim" element={<ClaimUsername />} />
             <Route path="/pay/:handle" element={<Pay />} />
 
             {/* Protected */}
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={<AuthGuard><Dashboard /></AuthGuard>} />
             <Route path="/send"      element={<AuthGuard><Send /></AuthGuard>} />
             <Route path="/defi"         element={<AuthGuard><Yield /></AuthGuard>} />
