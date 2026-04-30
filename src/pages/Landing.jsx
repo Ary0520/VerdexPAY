@@ -103,7 +103,7 @@ function Hero({ onGetStarted }) {
           {/* Badge */}
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 14px', backgroundColor: 'rgba(0,109,51,0.08)', borderRadius: 9999, width: 'fit-content', border: '1px solid rgba(0,109,51,0.15)' }}>
             <span style={{ width: 7, height: 7, borderRadius: '50%', backgroundColor: G.greenLight, display: 'inline-block' }}/>
-            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 13, color: G.green }}>Now live on Base · Zero fees</span>
+            <span style={{ fontFamily: 'Inter', fontWeight: 600, fontSize: 13, color: G.green }}>Built for the global freelancer · Zero fees</span>
           </div>
 
           {/* Headline */}
@@ -111,9 +111,9 @@ function Hero({ onGetStarted }) {
             fontFamily: 'Manrope', fontWeight: 800, fontSize: 'clamp(40px, 4.5vw, 56px)',
             lineHeight: 1.1, letterSpacing: '-0.02em', color: G.text, margin: 0,
           }}>
-            The international<br/>
-            payment account for<br/>
-            the global workforce
+            Your client pays.<br/>
+            You receive — in full.<br/>
+            In 3 seconds.
           </h1>
 
           {/* Subheadline */}
@@ -121,7 +121,8 @@ function Hero({ onGetStarted }) {
             fontFamily: 'Inter', fontWeight: 400, fontSize: 18, lineHeight: 1.6,
             color: G.sub, margin: 0, maxWidth: 448,
           }}>
-            Send and receive dollars instantly — to anyone, anywhere — using just a username. No bank account required. No fees. No waiting.
+            No wire fees. No 5-day delays. No middlemen taking a cut.
+            Just send your payment link, get paid instantly, and hold your balance in dollars — anywhere in the world.
           </p>
 
           {/* CTAs */}
@@ -136,7 +137,7 @@ function Hero({ onGetStarted }) {
               onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 28px rgba(0,109,51,0.4)' }}
               onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,109,51,0.3)' }}
             >
-              Get your @handle — it's free
+              Claim your @handle — free
             </button>
             <a href="#how-it-works" style={{
               padding: '16px 32px', borderRadius: 12,
@@ -154,7 +155,7 @@ function Hero({ onGetStarted }) {
 
           {/* Trust micro-copy */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 20, flexWrap: 'wrap' }}>
-            {['Works with Google or email', 'No crypto knowledge needed', 'Instant setup'].map(t => (
+            {['Sign in with Google', 'No crypto knowledge needed', 'Setup in 30 seconds'].map(t => (
               <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                   <path d="M7 1L2 3.5V7C2 9.985 4.24 12.785 7 13.5C9.76 12.785 12 9.985 12 7V3.5L7 1Z" stroke={G.green} strokeWidth="1.3" strokeLinejoin="round"/>
@@ -199,10 +200,17 @@ function PainSection() {
         lineHeight: 1.2, letterSpacing: '-0.01em',
         color: '#FFFFFF', margin: 0,
       }}>
-        PayPal takes 3–5 days and charges 4.4%.<br/>
-        Wise takes a cut too.<br/>
-        Your client paid you — but you're still waiting.
+        You finished the work.<br/>
+        Your client sent the money.<br/>
+        <span style={{ color: G.greenLight }}>So why are you still waiting?</span>
       </h2>
+      <p style={{
+        fontFamily: 'Inter', fontWeight: 400, fontSize: 18, lineHeight: 1.7,
+        color: 'rgba(255,255,255,0.6)', margin: '32px auto 0', maxWidth: 640,
+      }}>
+        Wise charges up to 3%. PayPal takes 4.4% plus a fixed fee. Wire transfers disappear into a 5-day black hole.
+        Every time you get paid internationally, someone else is taking a slice of your income — and you've just accepted it as normal.
+      </p>
     </section>
   )
 }
@@ -212,18 +220,18 @@ function HowItWorks() {
   const steps = [
     {
       n: '1',
-      title: 'Claim your handle',
-      body: 'Pick @yourname. Share it with anyone — clients, collaborators, friends. That\'s your payment address. No account numbers. No IBANs. No routing codes.',
+      title: 'Claim your @handle',
+      body: 'Pick @yourname in 30 seconds. That\'s your payment address — forever. No account numbers, no IBANs, no routing codes. Just share it like a username.',
     },
     {
       n: '2',
-      title: 'Get paid in seconds',
-      body: 'Your client opens verdexpay.app/pay/@you, types an amount, hits send. Money arrives in under 3 seconds. They don\'t need a VerdexPay account.',
+      title: 'Send your client the link',
+      body: 'Drop verdexpay.app/pay/@you in your invoice or DM. They open it, enter an amount, hit pay. Money lands in your account in under 3 seconds. They don\'t need to sign up.',
     },
     {
       n: '3',
-      title: 'Hold in dollars, spend when ready',
-      body: 'Your balance stays in USDC — a dollar-backed digital currency. Convert when the rate is right. Send to your bank when you\'re ready.',
+      title: 'Hold in dollars. Move when you\'re ready.',
+      body: 'Your balance sits in USDC — a dollar-backed stablecoin. It doesn\'t lose value. It doesn\'t expire. Convert to your local currency whenever the rate works for you.',
     },
   ]
 
@@ -267,8 +275,8 @@ function Features() {
           <path d="M9 13.5L12 16.5L18 10.5" stroke={G.green} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
-      title: 'Zero Fees. Seriously.',
-      body: 'No transfer fee. No conversion markup. No "international payment surcharge." What your client sends is exactly what you receive.',
+      title: 'Zero fees. What they send, you get.',
+      body: 'No transfer fee. No FX markup. No "international surcharge." If your client sends $500, you receive $500. Every single time.',
     },
     {
       icon: (
@@ -277,8 +285,8 @@ function Features() {
           <path d="M15 8V15L19 19" stroke={G.green} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
-      title: 'Arrives in Under 3 Seconds',
-      body: 'Not 3 days. Not 3 hours. 3 seconds. The moment your client hits send, the money is in your account.',
+      title: 'Paid in 3 seconds, not 3 days.',
+      body: 'The moment your client hits send, the money is in your account. No settlement windows. No "processing" limbo. No checking your bank app every hour.',
     },
     {
       icon: (
@@ -288,8 +296,8 @@ function Features() {
           <path d="M6 13H10" stroke={G.green} strokeWidth="1.8" strokeLinecap="round"/>
         </svg>
       ),
-      title: 'A Payment Link That Actually Works',
-      body: 'Share verdexpay.app/pay/@you anywhere — invoice, email, Twitter bio, WhatsApp. Your client clicks, pays, done. No app download required on their end.',
+      title: 'One link. Works for everyone.',
+      body: 'Put verdexpay.app/pay/@you in your invoice. Your client opens it, enters an amount, pays. No app download. No account. No friction on their end.',
     },
   ]
 
@@ -300,7 +308,7 @@ function Features() {
           fontFamily: 'Manrope', fontWeight: 800, fontSize: 32, lineHeight: 1.3,
           color: G.text, textAlign: 'center', margin: 0,
         }}>
-          Professional infrastructure, zero friction
+          Everything broken about international payments — fixed.
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
@@ -325,17 +333,17 @@ function Features() {
 function Testimonials() {
   const quotes = [
     {
-      quote: "I sent my client a payment link in my invoice. They paid from the US. I had the money in 3 seconds. I used to wait a week for Wise.",
+      quote: "I put my VerdexPay link in my invoice footer. My US client paid in 20 seconds. I used to wait 5 days for a Wise transfer and lose $30 every time.",
       name: 'Priya M.',
       role: 'Freelance Designer · India',
     },
     {
-      quote: "I work with 4 clients across 3 countries. VerdexPay is the only payment method all of them can use without friction.",
+      quote: "I work with clients across 4 countries. VerdexPay is the only tool where none of them had to download anything or create an account to pay me.",
       name: 'Chidi O.',
-      role: 'Remote Developer · Nigeria',
+      role: 'Remote Developer · West Africa',
     },
     {
-      quote: "My client didn't have crypto. Didn't matter. They just opened my link and paid. The whole thing took 20 seconds.",
+      quote: "The payment link is genius. I share it on Twitter, in proposals, everywhere. It just works. My clients think I'm incredibly professional.",
       name: 'Lucas R.',
       role: 'Independent Consultant · Brazil',
     },
@@ -346,8 +354,11 @@ function Testimonials() {
       <div style={{ maxWidth: 1216, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 56 }}>
         <div style={{ textAlign: 'center' }}>
           <h2 style={{ fontFamily: 'Manrope', fontWeight: 800, fontSize: 32, color: G.text, margin: 0 }}>
-            Built for the way you actually work
+            Real freelancers. Real payments.
           </h2>
+          <p style={{ fontFamily: 'Inter', fontSize: 16, color: G.sub, marginTop: 12 }}>
+            From designers in Asia to developers in Africa — this is how the global workforce gets paid now.
+          </p>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
@@ -380,13 +391,15 @@ function Objection() {
     <section style={{ backgroundColor: G.bgAlt, padding: '120px 32px' }}>
       <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center', display: 'flex', flexDirection: 'column', gap: 24 }}>
         <h2 style={{ fontFamily: 'Manrope', fontWeight: 800, fontSize: 'clamp(28px, 3vw, 36px)', lineHeight: 1.2, color: G.text, margin: 0 }}>
-          "But I don't know anything about crypto."
+          "I don't know anything about crypto."
         </h2>
         <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 18, lineHeight: 1.7, color: G.sub, margin: 0 }}>
-          Neither do most of our users. VerdexPay handles everything behind the scenes. You log in with Google, get a wallet automatically, and use the app like any other payment tool. The only difference is it works everywhere, instantly, for free.
+          Good — you don't need to. Sign in with Google, claim your handle, and you're done.
+          VerdexPay handles the blockchain layer invisibly. You just see dollars coming in.
+          No seed phrases. No gas fees. No wallet setup. It works exactly like any other app you already use.
         </p>
         <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 13, color: G.muted, margin: 0 }}>
-          Powered by USDC (USD Coin) — a regulated, dollar-backed digital currency issued by Circle. 1 USDC = $1.00, always.
+          Your balance is held in USDC — a regulated, dollar-backed digital currency issued by Circle, the same company behind Coinbase's USD Coin. 1 USDC = $1.00, always.
         </p>
       </div>
     </section>
@@ -406,10 +419,10 @@ function FinalCTA({ onGetStarted }) {
           lineHeight: 1.1, letterSpacing: '-0.025em',
           color: '#FFFFFF', textAlign: 'center', margin: 0,
         }}>
-          Get paid the way<br/>you deserve.
+          Stop losing money<br/>every time you get paid.
         </h2>
         <p style={{ fontFamily: 'Inter', fontWeight: 400, fontSize: 18, lineHeight: 1.6, color: 'rgba(255,255,255,0.9)', textAlign: 'center', margin: 0 }}>
-          Claim your free handle in 30 seconds. No credit card. No crypto wallet. Just your Google account.
+          Claim your handle in 30 seconds. Share your link. Get paid in full — instantly, from anywhere.
         </p>
         <button onClick={onGetStarted} style={{
           padding: '21px 40px', borderRadius: 12, border: 'none',
@@ -425,7 +438,7 @@ function FinalCTA({ onGetStarted }) {
           Get Started Now
         </button>
         <p style={{ fontFamily: 'Inter', fontSize: 13, color: 'rgba(255,255,255,0.7)', margin: 0 }}>
-          verdexpay.app/pay/@yourname · Share it anywhere
+          No credit card. No crypto wallet. Just your Google account.
         </p>
       </div>
     </section>
