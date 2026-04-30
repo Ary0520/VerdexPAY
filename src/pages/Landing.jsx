@@ -86,7 +86,7 @@ function Hero({ onGetStarted }) {
       minHeight: '100vh',
       backgroundColor: G.bg,
       display: 'flex', alignItems: 'center',
-      padding: '120px 32px 80px',
+      padding: '120px 32px 0px',
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Green glow blob behind phone */}
@@ -167,21 +167,18 @@ function Hero({ onGetStarted }) {
         </div>
 
         {/* Right — phone mockup */}
-        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            borderRadius: 48, overflow: 'hidden',
-            border: '8px solid #E1E3E4',
-            boxShadow: '0 24px 80px rgba(25,28,29,0.18)',
-            width: 'min(347px, 90%)',
-            aspectRatio: '347/693',
-            position: 'relative',
-          }}>
-            <img
-              src="/hero-phone.jpg"
-              alt="VerdexPay app dashboard"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-          </div>
+        <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'flex-end', position: 'relative', zIndex: 1, overflow: 'visible' }}>
+          <img
+            src="/hero-phone.png"
+            alt="VerdexPay app dashboard"
+            style={{
+              width: 'min(440px, 92%)',
+              objectFit: 'contain',
+              display: 'block',
+              filter: 'drop-shadow(0 40px 60px rgba(0,0,0,0.18))',
+              marginBottom: '-40px',
+            }}
+          />
         </div>
 
       </div>
